@@ -1,0 +1,114 @@
+@import '../theme/variables.less';
+
+.headerWrap {
+  background-color: @header-primary;
+  display: flex;
+  padding:0 12px 0 0;
+  height: @header-height;
+}
+
+.headerFixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+}
+
+.logoWrap {
+  height: @header-height;
+  position: relative;
+  line-height: @header-height;
+  padding-left: 24px;
+  transition: all .2s;
+  overflow: hidden;
+  position: relative;
+  background-color: @header-primary-dark;
+  img {
+    display: inline-block;
+    height: 32px;
+  }
+  h1 {
+    color: #fff;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 20px;
+    //margin: 0;
+    margin: 0 0 0 8px;
+    font-family: Avenir,Helvetica Neue,Arial,Helvetica,sans-serif;
+    font-weight: 600;
+  }
+  .toggleButton {
+    font-size: 20px;
+    color: #fff;
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    margin-top: -10px;
+    cursor: pointer;
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+}
+
+.logoWrapCollapsed {
+  .webName, img {
+    display: none;
+  }
+  .toggleButton {
+    right:23px;
+  }
+}
+
+.headerRight {
+  flex: auto;
+}
+
+.menu {
+  :global(.anticon) {
+    margin-right: 8px;
+  }
+  :global(.ant-dropdown-menu-item) {
+    width: 160px;
+  }
+}
+
+.right {
+  float: right;
+  height: 100%;
+  .action {
+    cursor: pointer;
+    padding: 0 12px;
+    display: inline-block;
+    transition: all 0.3s;
+    height: 100%;
+    > i {
+      font-size: 16px;
+      vertical-align: middle;
+      color: #fff;
+    }
+    &:hover,
+    &:global(.ant-popover-open) {
+      background: @header-primary-dark;
+    }
+  }
+  .search {
+    padding: 0;
+    margin: 0 12px;
+    &:hover {
+      background: transparent;
+    }
+  }
+  .account {
+    .avatar {
+      margin: 20px 8px 20px 0;
+      color: #fff;
+      background-color: #f56a00;
+      vertical-align: middle;
+    }
+    .name {
+      color: #fff;
+    }
+  }
+}

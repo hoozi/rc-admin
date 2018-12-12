@@ -1,0 +1,28 @@
+@import '../theme/variables.less';
+
+.siderWrap {
+  min-height: 100vh;
+  //overflow-y: auto
+}
+
+.siderLight {
+  //box-shadow: 2px 0 8px 0 rgba(29,35,41,.05);
+  border-right: 1px solid @grey-4;
+}
+
+.siderFixed {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  padding-top: @header-height;
+}
+
+:global {
+  .ant-menu-inline-collapsed {
+    width: @menu-collapsed-width;
+    & > .ant-menu-item,
+    & > .ant-menu-submenu > .ant-menu-submenu-title {
+      padding:0 23px !important;
+    }
+  }
+}
