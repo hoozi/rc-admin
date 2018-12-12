@@ -43,7 +43,7 @@ const normalRoutes = [
   {
     path: '/',
     exact: true,
-    redirect: '/test'
+    redirect: '/parent'
   },
   {
     path: '/user/login',
