@@ -1,9 +1,11 @@
+import { formatterMenus } from '@/utils';
+
 const menuData = [
   {
     name: '测试',
     icon: 'dashboard',
     path: 'parent',
-    authority: '3',
+    //authority: '3',
     children: [
       {
         name: '测试sub',
@@ -18,4 +20,4 @@ const menuData = [
   }
 ];
 
-export default menuData;
+export default () => formatterMenus(menuData);

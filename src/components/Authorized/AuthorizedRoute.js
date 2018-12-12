@@ -16,6 +16,10 @@ export default class AuthorizedRoute extends Component {
       PropTypes.array,
       PropTypes.func,
     ]),
+    redirectData: PropTypes.arrayOf(PropTypes.shape({
+      from: PropTypes.string,
+      to: PropTypes.string
+    })),
     normalRoutes: PropTypes.arrayOf(PropTypes.shape({
       path: PropTypes.string,
       redirect: PropTypes.string,
@@ -30,10 +34,12 @@ export default class AuthorizedRoute extends Component {
       unauthorized: PropTypes.func,
     })),
     authorizedLayout: PropTypes.func,
-    notFound: PropTypes.func
+    notFound: PropTypes.func,
+    
   }
   static defaultProps = {
     authorities: '',
+    redirectData: [],
     normalRoutes: [],
     normalLayout: <div></div>,
     authorizedRoutes: [],
@@ -101,9 +107,12 @@ export default class AuthorizedRoute extends Component {
     )
   }
   render() {
-    const { normalRoutes, authorizedRoutes } = this.props;
+    const { normalRoutes, authorizedRoutes, redirectData } = this.props;
     return (
       <Switch>
+        {redirectData.map(item => (
+          <Redirect key={item.from} exact from={item.from} to={item.to} />
+        ))}
         {normalRoutes.map(route => (
           this.renderUnAuthorizedRoute(route)
         ))}

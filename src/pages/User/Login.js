@@ -108,7 +108,7 @@ class LoginPage extends PureComponent {
   }
   render() {
     return (
-      <LoginChecker isLogin={false}>
+      <LoginChecker isLogin={true}>
         <div className={styles.loginContainer}>
           <div className={styles.loginHeader}>
             <h1>优质服务，追求卓越</h1>

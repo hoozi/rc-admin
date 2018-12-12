@@ -6,7 +6,7 @@ import {
 } from 'antd';
 import { Link } from 'react-router-dom';
 import memoizeOne from 'memoize-one';
-import { formatterMenus, getMenuMatchKeys, getFlatMenuKeys, urlToList } from '@/utils';
+import { getMenuMatchKeys, getFlatMenuKeys, urlToList } from '@/utils';
 import { Authorized } from '@/components/Authorized';
 
 const MenuItem = Menu.Item;
@@ -23,7 +23,6 @@ export default class MenuTree extends Component {
   }
   constructor(props) {
     super(props);
-    this.fullPathMenuData = memoizeOne(menuData => formatterMenus(menuData));
     this.selectedKeys = memoizeOne((pathname, fullPathMenu) => (
       getMenuMatchKeys(getFlatMenuKeys(fullPathMenu), urlToList(pathname))
     ));
@@ -31,7 +30,7 @@ export default class MenuTree extends Component {
     const { pathname, menuData } = props
 
     this.state = {
-      openKeys: this.selectedKeys(pathname, this.fullPathMenuData(menuData))
+      openKeys: this.selectedKeys(pathname, menuData)
     }
   }
   
@@ -107,21 +106,20 @@ export default class MenuTree extends Component {
   render() {
     const { pathname, menuData } = this.props;
     const { openKeys } = this.state;
-    let selectedKeys = this.selectedKeys(pathname, this.fullPathMenuData(menuData));
+    let selectedKeys = this.selectedKeys(pathname, menuData);
     if (!selectedKeys.length) {
       selectedKeys = [openKeys[openKeys.length - 1]];
     }
     return (
       <Menu
+        style={{border: 0}}
         mode="inline"
         onOpenChange={this.handleOpenChange}
         openKeys={openKeys}
         selectedKeys={selectedKeys}
       >
         {
-          this.renderMenuItems(
-            this.fullPathMenuData(menuData)
-          )
+          this.renderMenuItems(menuData)
         }
       </Menu>
     )

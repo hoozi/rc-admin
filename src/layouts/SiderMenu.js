@@ -4,7 +4,7 @@ import {
 } from 'antd';
 import styles from './SiderMenu.less';
 import classNames from 'classnames';
-import menuData from '@/app/menu';
+import getMenuData from '@/app/menu';
 import MenuTree from '@/components/MenuTree';
 
 const { Sider } = Layout
@@ -26,7 +26,7 @@ export default class SiderMenu extends Component {
       >
         <MenuTree
           pathname={pathname}
-          menuData={menuData}
+          menuData={getMenuData()}
         />
       </Sider>
     )
