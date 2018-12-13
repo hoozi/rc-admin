@@ -11,7 +11,7 @@ const { Sider } = Layout
 
 export default class SiderMenu extends Component {
   render() {
-    const { width, fixed, theme, pathname, ...restProps } = this.props;
+    const { width, fixed, theme, pathname, collapsed, ...restProps } = this.props;
     const siderClassNames = classNames(styles.siderWrap, {
       [styles.siderFixed]: fixed,
       [styles.siderLight]: theme === 'light'
@@ -22,11 +22,13 @@ export default class SiderMenu extends Component {
         collapsedWidth={64}
         theme={theme}
         className={siderClassNames}
+        collapsed={collapsed}
         {...restProps}
       >
         <MenuTree
           pathname={pathname}
           menuData={getMenuData()}
+          collapsed={collapsed}
         />
       </Sider>
     )

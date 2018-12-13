@@ -12,7 +12,7 @@ import { Authorized } from '@/components/Authorized';
 const MenuItem = Menu.Item;
 const SubMenu = Menu.SubMenu;
 
-export default class MenuTree extends Component {
+class MenuTree extends Component {
   static propTypes = {
     menuData: PropTypes.arrayOf(PropTypes.shape({
       name: PropTypes.string,
@@ -104,8 +104,11 @@ export default class MenuTree extends Component {
       .filter(item => item);
   }
   render() {
-    const { pathname, menuData } = this.props;
+    const { pathname, menuData, collapsed } = this.props;
     const { openKeys } = this.state;
+    const menuProps = collapsed ? {} : {
+      openKeys
+    }
     let selectedKeys = this.selectedKeys(pathname, menuData);
     if (!selectedKeys.length) {
       selectedKeys = [openKeys[openKeys.length - 1]];
@@ -115,8 +118,8 @@ export default class MenuTree extends Component {
         style={{border: 0}}
         mode="inline"
         onOpenChange={this.handleOpenChange}
-        openKeys={openKeys}
         selectedKeys={selectedKeys}
+        {...menuProps}
       >
         {
           this.renderMenuItems(menuData)
@@ -125,3 +128,5 @@ export default class MenuTree extends Component {
     )
   }
 }
+
+export default MenuTree;
