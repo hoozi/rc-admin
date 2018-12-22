@@ -51,11 +51,18 @@ const inputMap = [
   }
 ]
 
+function hasErrors(fieldsError) {
+  return Object.keys(fieldsError).some(field => fieldsError[field]);
+}
+
 //@connect(({ loading }) => ({ submitting: loading.effects['user/login'] }))
 @Form.create()
 class LoginPage extends PureComponent {
   state = {
     randomStr: Date.now()
+  }
+  componentDidMount() {
+    this.props.form.validateFields();
   }
   handleSubmit = e => {
     e.preventDefault();
@@ -107,8 +114,9 @@ class LoginPage extends PureComponent {
     });
   }
   render() {
+    const { form: {getFieldsError} } = this.props;
     return (
-      <LoginChecker isLogin={true}>
+      <LoginChecker isLogin={false}>
         <div className={styles.loginContainer}>
           <div className={styles.loginHeader}>
             <h1>优质服务，追求卓越</h1>
@@ -125,6 +133,7 @@ class LoginPage extends PureComponent {
               size='large' 
               className={styles.widthFull}
               loading={this.props.submitting}
+              disabled={hasErrors(getFieldsError())}
             >
               登 录
             </Button>

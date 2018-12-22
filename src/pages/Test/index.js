@@ -1,8 +1,9 @@
 import React from 'react';
 import { AuthorizedButton } from '@/components/Authorized';
+import PageLayout from '@/layouts/PageLayout';
 
 export default props => (
-  <div>
+  <PageLayout>
     <AuthorizedButton type='primary' authorities='1'>Test Click1</AuthorizedButton>
-  </div>
+  </PageLayout>
 );

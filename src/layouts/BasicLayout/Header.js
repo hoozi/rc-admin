@@ -7,16 +7,33 @@ import {
   Tooltip,
   Dropdown
 } from 'antd';
-import logo from '@/assets/logo.svg';
 import styles from './Header.less';
 import classNames from 'classnames';
 
 const { Header } = Layout;
 
+const fullScreenEvents = [
+  'fullscreenchange', 
+  'webkitfullscreenchange',
+  'mozfullscreenchange',
+  'MSFullscreenChange'
+]
+
 const fullScreen = exit => {
   const de = document.documentElement;
-  const fullScreens = ['webkitRequestFullScreen', 'mozRequestFullScreen', 'msRequestFullScreen', 'requestFullscreen'];
-  const exitFullScreens = ['exitFullscreen', 'mozCancelFullScreen', 'webkitCancelFullScreen', 'msExitFullscreen'];
+  const fullScreens = [
+    'webkitRequestFullScreen', 
+    'mozRequestFullScreen', 
+    'msRequestFullScreen', 
+    'requestFullscreen'
+  ];
+  const exitFullScreens = [
+    'exitFullscreen', 
+    'mozCancelFullScreen', 
+    'webkitCancelFullScreen', 
+    'msExitFullscreen'
+  ];
+  
   fullScreens.forEach(item => {
     if((item in de) && !exit) {
       return de[item].call(de);
@@ -29,18 +46,54 @@ const fullScreen = exit => {
   });
 }
 
+const isFullScreen = () => {
+  let hasFullScreen = false;
+  const isFullScreens = [
+    'fullscreenEnabled',
+    'webkitIsFullScreen',
+    'msFullscreenEnabled'
+  ] 
+
+  isFullScreens.forEach(item => {
+    if( (item in document) ) {
+      hasFullScreen = document[item];
+      return;
+    }
+  })
+  
+  if('fullScreen' in window) {
+    hasFullScreen = window.fullScreen;
+  }
+
+  return hasFullScreen;
+}
+
 export default class HeaderView extends Component {
-  fullScreen = false;
   state = {
-    fullScreen: false
+    fullScreen: isFullScreen()
   }
   handleFullScreen = () => {
-    this.setState(prevState => {
-      !prevState.fullScreen ? fullScreen() : fullScreen(true);
-      return {
-        fullScreen: !prevState.fullScreen
-      }
+    isFullScreen() ? fullScreen(true) : fullScreen();
+  }
+  handleFullScreenChange = () => {
+    this.setState({
+      fullScreen: isFullScreen()
+    });
+  }
+  getFullScreenEvent = type => {
+    fullScreenEvents.forEach(event => {
+      document[
+        type === 'bind' ? 
+        'addEventListener' : 
+        'removeEventListener'
+      ](event, this.handleFullScreenChange)
     })
+  }
+  componentDidMount() {
+    this.getFullScreenEvent('bind');
+  }
+  componentWillUnmount() {
+    this.getFullScreenEvent('unbind');
   }
   renderRightContent = () => {
     const { fullScreen } = this.state;
@@ -83,7 +136,7 @@ export default class HeaderView extends Component {
                 src='http://img.zcool.cn/community/01313a5656cd1332f87512f68f3950.jpg@1280w_1l_2o_100sh.png'
                 className={styles.avatar}
               />
-              <span className={styles.name}>admin</span>
+              <span className={styles.name}>你好，admin</span>
             </span>
           </Dropdown>
         </div>
@@ -91,7 +144,7 @@ export default class HeaderView extends Component {
     )
   }
   render() {
-    const { fixed, onSiderToggle, collapsed, logoWrapWidth, appName } = this.props;
+    const { fixed, onSiderToggle, collapsed, logoWrapWidth, appName, logo } = this.props;
     const headerClassNames = classNames(styles.headerWrap, {
       [styles.headerFixed]: fixed
     });
@@ -101,8 +154,8 @@ export default class HeaderView extends Component {
     return (
       <Header className={headerClassNames}>
         <div className={logoWrapClassNames} style={{width: collapsed ? 64 : logoWrapWidth}}>
-          <img src={logo} alt={appName}/>
-          <a href='/' className={styles.webName}><h1>{appName}</h1></a>
+          {logo && <img src={logo} alt={appName}/>}
+          <a href='/' className={styles.webName}><h1 style={{ marginLeft: logo ? 8 : 0 }}>{appName}</h1></a>
           <Icon type={collapsed ? 'menu-unfold' : 'menu-fold'} className={styles.toggleButton} onClick={onSiderToggle}/>
         </div>
         {this.renderRightContent()}

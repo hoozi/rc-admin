@@ -53,7 +53,6 @@ const normalRoutes = [
 ];
 
 
-
 const combineRoutes = [
   ...authorizedRoutes,
   ...normalRoutes

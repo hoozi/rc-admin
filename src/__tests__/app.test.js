@@ -1,9 +1,17 @@
-describe('test', () => {
+
+/* import App from '@/pages/Test';
+import Enzyme, { mount } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+
+Enzyme.configure({
+  adapter: new Adapter()
+})
+ */
+describe('createApp', () => {
  
-  it('two plus two is four', () => {
- 
-    expect(2 + 2).toBe(4);
- 
+  it('App can rendered', () => {
+    //const wrapper = mount(App);
+    //expect(wrapper.find(Router)).to.have.lengthOf(3);
   });
  
 });

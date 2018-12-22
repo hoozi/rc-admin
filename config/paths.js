@@ -43,6 +43,7 @@ const moduleFileExtensions = [
   'mjs',
   'web.js',
   'js',
+  'less',
   'web.ts',
   'ts',
   'web.tsx',
